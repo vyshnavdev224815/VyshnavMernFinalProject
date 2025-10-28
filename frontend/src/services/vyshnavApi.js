@@ -24,7 +24,9 @@ export const bookApi = {
     // Create a new book
     createBook: async (bookData) => {
         const response = await vyshnavApi.post('/books', bookData);
-        toast.success('Book added successfully!');
+        if (response.data.success) {
+            toast.success('Book added successfully!');
+        }
         return response.data;
     },
 

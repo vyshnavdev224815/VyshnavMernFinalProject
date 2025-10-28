@@ -27,6 +27,11 @@ import { bookApi } from './services/vyshnavApi';
 function App() {
     const [books, setBooks] = useState([]);
     const [stats, setStats] = useState({ total: 0, outOfStock: 0 });
+    
+    // Fetch books when component mounts
+    useEffect(() => {
+        fetchBooks();
+    }, []);
     const [openAdd, setOpenAdd] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
@@ -35,8 +40,12 @@ function App() {
     const fetchBooks = async () => {
         try {
             const response = await bookApi.getBooks();
-            setBooks(response.data.books);
-            setStats(response.data.stats);
+            if (response.success) {
+                setBooks(response.data.books);
+                setStats(response.data.stats);
+            } else {
+                console.error('Failed to fetch books:', response.message);
+            }
         } catch (error) {
             console.error('Error fetching books:', error);
         }
@@ -48,8 +57,11 @@ function App() {
 
     const handleAdd = async (bookData) => {
         try {
-            await bookApi.createBook(bookData);
-            fetchBooks();
+            const response = await bookApi.createBook(bookData);
+            if (response.success) {
+                await fetchBooks();
+                setOpenAdd(false);
+            }
         } catch (error) {
             console.error('Error adding book:', error);
         }
