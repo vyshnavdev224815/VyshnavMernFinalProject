@@ -87,15 +87,29 @@ function App() {
 
     return (
         <div className="App">
-            <AppBar position="static">
+            <AppBar position="static" elevation={0} sx={{ 
+                backgroundColor: 'white',
+                borderBottom: '1px solid #e0e0e0'
+            }}>
                 <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography variant="h5" component="div" sx={{ 
+                        flexGrow: 1,
+                        color: '#1976d2',
+                        fontWeight: 600,
+                        letterSpacing: '-0.5px'
+                    }}>
                         Vyshnav Book Inventory
                     </Typography>
                     <Button 
-                        color="inherit" 
+                        variant="contained"
                         startIcon={<AddIcon />}
                         onClick={() => setOpenAdd(true)}
+                        sx={{
+                            borderRadius: '8px',
+                            textTransform: 'none',
+                            px: 3,
+                            py: 1
+                        }}
                     >
                         Add Book
                     </Button>
@@ -103,30 +117,72 @@ function App() {
             </AppBar>
 
             <Container maxWidth="lg" sx={{ mt: 4 }}>
-                <Paper sx={{ p: 2, mb: 3 }}>
-                    <Box sx={{ display: 'flex', gap: 2 }}>
-                        <Chip 
-                            label={`Total Books: ${stats.total}`}
-                            color="primary"
-                        />
-                        <Chip 
-                            label={`Out of Stock: ${stats.outOfStock}`}
-                            color="error"
-                        />
-                    </Box>
-                </Paper>
+                <Box sx={{ 
+                    display: 'flex',
+                    gap: 3,
+                    mb: 4,
+                    justifyContent: 'center'
+                }}>
+                    <Paper elevation={0} sx={{ 
+                        p: 3,
+                        borderRadius: '12px',
+                        border: '1px solid #e0e0e0',
+                        flex: 1,
+                        maxWidth: '200px',
+                        textAlign: 'center',
+                        transition: 'transform 0.2s',
+                        '&:hover': {
+                            transform: 'translateY(-4px)',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                        }
+                    }}>
+                        <Typography variant="h3" color="primary" sx={{ mb: 1, fontWeight: 600 }}>
+                            {stats.total}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                            Total Books
+                        </Typography>
+                    </Paper>
 
-                <VyshnavBookList 
-                    books={books}
-                    onEdit={(book) => {
-                        setSelectedBook(book);
-                        setOpenEdit(true);
-                    }}
-                    onDelete={(book) => {
-                        setSelectedBook(book);
-                        setOpenDelete(true);
-                    }}
-                />
+                    <Paper elevation={0} sx={{ 
+                        p: 3,
+                        borderRadius: '12px',
+                        border: '1px solid #e0e0e0',
+                        flex: 1,
+                        maxWidth: '200px',
+                        textAlign: 'center',
+                        transition: 'transform 0.2s',
+                        '&:hover': {
+                            transform: 'translateY(-4px)',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+                        }
+                    }}>
+                        <Typography variant="h3" color="error" sx={{ mb: 1, fontWeight: 600 }}>
+                            {stats.outOfStock}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                            Out of Stock
+                        </Typography>
+                    </Paper>
+                </Box>
+
+                <Paper elevation={0} sx={{ 
+                    p: 3,
+                    borderRadius: '12px',
+                    border: '1px solid #e0e0e0'
+                }}>
+                    <VyshnavBookList 
+                        books={books}
+                        onEdit={(book) => {
+                            setSelectedBook(book);
+                            setOpenEdit(true);
+                        }}
+                        onDelete={(book) => {
+                            setSelectedBook(book);
+                            setOpenDelete(true);
+                        }}
+                    />
+                </Paper>
             </Container>
 
             <VyshnavAddBookForm 
